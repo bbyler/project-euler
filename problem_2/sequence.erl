@@ -1,29 +1,25 @@
 -module(sequence).
--export(main/0).
+-export([main/0, fib_even_upto/1, sum/1]).
 
-main() ->
-  io:format("Starting Fibonacci sequences~n"),
-  StartTime = time(),
-  MaxSum    = 4000000,
-  Sequence  = fibonacci_sum(MaxSum),
-  EndTime   = time(),
-  TimeSpent = EndTime - StartTime
-  io:format("Finished!~n"),
-  io:format("Sequence: ~s~n", [Sequence]),
-  io:format("Finished in ~s minutes~n", [TimeSpent]).
+main() -> sum(fib_even_upto(4000000)).
 
-fibonacci_sum(0) ->
-  0;
-fibonacci_sum(N) when N =:= 1 or N =:= 2 ->
-  1;
-fibonacci_sum(N) when N rem 2 =:= 0 ->
-  M = N / 2,
-  fast_fibonacci(M) * (2 * fast_fibonacci(M + 1) - fast_fibonacci(M));
-fibonacci_sum(N) when N rem 2 =:= 1 ->
-  L = (N - 1) / 2,
-  math:pow(fast_fibonacci(L + 1), 2) + math:pow(fast_fibonacci(L), 2).
+fib_even_upto(0)    -> [0];
+fib_even_upto(Upto) -> fib_even_upto(0, 1, Upto, [0]).
 
-fibonacci_sum(N) >= MaxSum ->
-  N;
-fibonacci_sum(N) < MaxSum ->
-  fibonacci_sum(fast_fibonaci(N)).
+fib_even_upto(Current, Next, Upto, Sequence) when (Current + Next) > Upto ->
+  io:format("Sequence generated: ~p~n", [lists:reverse(Sequence)]),
+  lists:reverse(Sequence);
+fib_even_upto(Current, Next, Upto, Sequence) when ((Current + Next) rem 2) =:= 1 ->
+  N = Current + Next,
+  fib_even_upto(Next, N, Upto, Sequence);
+fib_even_upto(Current, Next, Upto, Sequence) ->
+  N = Current + Next,
+  fib_even_upto(Next, N, Upto, [N | Sequence]).
+
+sum(Values) -> sum(Values, 0).
+
+sum([], Total) ->
+  io:format("List total: ~p~n", [Total]),
+  Total;
+sum([Value | Values], Total) ->
+  sum(Values, Total + Value).
