@@ -1,7 +1,7 @@
 public class DivisorNum {
     public static void main(String[] args) {
         // Pass in last integer in range (20 --> 1..20)
-        // System.out.println(divisor(10)); // Outputs 2520
+        System.out.println(divisor(10)); // Outputs 2520
         System.out.println(divisor(20)); // Outputs 232792560  
     }
 
