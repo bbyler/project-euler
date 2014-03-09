@@ -17,12 +17,11 @@ class Problem8
         new_array << slice
         new_array
       end.map {|el| el.join(',').gsub(',', '').to_i }
-      collection = gather_pairs(collection)
-      collection
+      gather_pairs!(collection)
     end
 
     # Helper for above method. Create pairs of consecutive elements
-    def gather_pairs(arr)
+    def gather_pairs!(arr)
       collection = []
       until [0, 1].include? arr.size
         new_arr = [arr.shift, arr.first]
